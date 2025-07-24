@@ -20,7 +20,10 @@ srun --mpi=pmix -N <number of nodes> -n <number of tasks> -u --environment=$PWD/
 
 ### Exercise
 
-Implement a [sedrecv][https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/p2p.html#sendrecv] using CuPy arrays and NCCL. 
+Implement a [sedrecv](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/p2p.html#sendrecv) using CuPy arrays and NCCL. 
+
 Use the above `sendrecv` to create a chain of `n` processes where each process `i`, receives data from it's left neighbor process `i-1` and sends data to it's right neighbor process `i+1` simultaneously. 
+
 For process `0`,  use process `n-1` as it's left neighbor, while for process `n-1` use process `0` as it's right neighbor.
-By measuring the time needed for the transfers to complete, the network bidirectional bandwidth can be calculated.
+
+By measuring the time needed for the transfers to complete, the network bandwidth can be calculated.
