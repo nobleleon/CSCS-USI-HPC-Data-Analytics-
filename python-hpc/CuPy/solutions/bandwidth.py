@@ -1,4 +1,3 @@
-import os
 import numpy as np
 import cupy as cp
 import cupyx
@@ -30,12 +29,10 @@ for i in range(11):
     device_array = cp.zeros(shape=1024 * 1024 * 2 ** i, dtype=cp.byte)
     host_array = []
     for j in range(4):
-        os.sched_setaffinity(os.getpid(), {18 * j + l for l in range(18)})
         host_array.append(cupyx.empty_pinned(shape=1024 * 1024 * 2 ** i, dtype=np.byte))
 
     streams = [None] * 4 
     
-    os.sched_setaffinity(os.getpid(), {l for l in range(72)})
     # Warmup
     cp.asnumpy(device_array, out=host_array[0])
     
@@ -84,7 +81,6 @@ for i in range(11):
     bandwidth = device_array.nbytes * CYCLES / (1024 ** 3) / timer.elapsed_time * 1000
     print(f'{2**i:4d}MB -> {bandwidth:4.2f} GB/s')
 
-
 print('Running benchmark for D0 -> D0')
 
 for i in range(13):
@@ -101,7 +97,6 @@ for i in range(13):
 
     bandwidth = device_array.nbytes * CYCLES / (1024 ** 3) / timer.elapsed_time * 1000
     print(f'{2**i:4d}MB -> {bandwidth:4.2f} GB/s')
-
 
 print('Running benchmark for D0 -> D1')
 
